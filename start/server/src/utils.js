@@ -17,16 +17,15 @@ module.exports.paginateResults = ({
     // if there's still not a cursor, return false by default
     return itemCursor ? cursor === itemCursor : false;
   });
-
-  return cursorIndex >= 0
-    ? cursorIndex === results.length - 1 // don't let us overflow
-      ? []
-      : results.slice(
-          cursorIndex + 1,
-          Math.min(results.length, cursorIndex + 1 + pageSize),
-        )
-    : results.slice(0, pageSize);
-
+  
+  if (cursorIndex >= 0) {
+    if (cursorIndex === results.length -1) {
+      return [];
+    }
+    return results.slice((cursorIndex + 1), Math.min(results.length, (cursorIndex + 1 + pageSize)))
+  }
+  return results.slice(0, pageSize);
+  
   results.slice(cursorIndex >= 0 ? cursorIndex + 1 : 0, cursorIndex >= 0);
 };
 

@@ -1,13 +1,6 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-    type Query {
-        launches: [Launch]!
-        launch(id: ID!): Launch
-        # Queries for the current user
-        me: User
-    }
-
     type Launch {
         id: ID!
         site: String
@@ -25,7 +18,7 @@ const typeDefs = gql`
     type User {
         id: ID!
         email: String!
-        trips: [Launh]!
+        trips: [Launch]!
     }
 
     type Mission {
@@ -51,6 +44,19 @@ const typeDefs = gql`
         success: Boolean!
         message: String
         launches: [Launch]
+    }
+    type Query {
+        launches(
+            pageSize: Int
+            after: String
+        ): LaunchConnection!
+        launch(id: ID!): Launch
+        me: User
+    }
+    type LaunchConnection {
+        cursor: String!
+        hasMore: Boolean!
+        launches: [Launch]!
     }
 
 `;
